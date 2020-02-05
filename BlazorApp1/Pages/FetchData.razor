@@ -1,0 +1,53 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Joke</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            
+                <tr>
+                    <td>@forecasts.value.joke</td>
+                
+                </tr>
+            
+        </tbody>
+    </table>
+}
+
+@code {
+    private WeatherForecast forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetJsonAsync<WeatherForecast>("https://api.icndb.com/jokes/random");
+    }
+
+    public class WeatherForecast
+    {
+        public string type { get; set; }
+        public Value value { get; set; }
+
+    }
+
+    public class Value
+    {
+        public int id { get; set; }
+        public string joke { get; set; }
+    }
+
+}
